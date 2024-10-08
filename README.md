@@ -5,6 +5,7 @@ Cross-platform React Native App that displays a list of currency conversion rate
 ## Description
 
 This project is a React Native application that fetches and displays currency conversion rates from USD to various other currencies. It's designed to work on both iOS and Android platforms.
+![Uploading preview.png…]()
 
 ## Setup and Installation
 
