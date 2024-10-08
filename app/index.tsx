@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  ImageBackground,
+} from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 import CurrentItem from '@/components/CurrentItem';
 
@@ -37,45 +44,69 @@ const CurrencyList = () => {
   const lowestRate = sortedRates[0];
   const highestRate = sortedRates[sortedRates.length - 1];
 
+  const backgroundImage = require('@/assets/images/background.jpg'); // Add this line
+
   if (error) {
     return (
-      <View className="flex-1 p-4 bg-gray-100 items-center justify-center">
-        <Text className="text-lg text-red-600 text-center">{error}</Text>
-      </View>
+      <ImageBackground
+        source={backgroundImage}
+        style={{ flex: 1 }}
+        resizeMode="cover"
+      >
+        <View className="flex-1 p-4 items-center justify-center">
+          <FontAwesome name="exclamation-circle" size={50} color="#DC2626" />
+          <Text className="text-lg text-red-600 text-center mt-4">{error}</Text>
+        </View>
+      </ImageBackground>
     );
   }
 
   if (rates.length === 0) {
     return (
-      <View className="flex-1 p-4 bg-gray-100 items-center justify-center">
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text className="text-lg mt-4">Loading currency rates...</Text>
-      </View>
+      <ImageBackground
+        source={backgroundImage}
+        style={{ flex: 1 }}
+        resizeMode="cover"
+      >
+        <View className="flex-1 p-4 items-center justify-center">
+          <ActivityIndicator size="large" color="#3B82F6" />
+          <Text className="text-lg mt-4">Loading currency rates...</Text>
+        </View>
+      </ImageBackground>
     );
   }
 
   return (
-    <View className="flex-1 p-4 bg-gray-100 pt-10">
-      <Text className="text-3xl mb-4 text-center text-gray-800">
-        Currency Conversion Rates
-      </Text>
-      <FlatList
-        data={[
-          lowestRate,
-          highestRate,
-          ...rates.filter((r) => r !== lowestRate && r !== highestRate),
-        ].filter(Boolean)}
-        renderItem={({ item }) => (
-          <CurrentItem
-            item={item}
-            lowest={lowestRate === item}
-            highest={highestRate === item}
-          />
-        )}
-        keyExtractor={(item) => item.code}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+    <ImageBackground
+      source={backgroundImage}
+      style={{ flex: 1 }}
+      resizeMode="cover"
+    >
+      <View className="flex-1 p-4 pt-10">
+        <View className="flex-row items-center justify-center mb-4">
+          <FontAwesome name="money" size={24} color="#4B5563" />
+          <Text className="text-3xl ml-2 text-center text-gray-800">
+            Currency Conversion Rates
+          </Text>
+        </View>
+        <FlatList
+          data={[
+            lowestRate,
+            highestRate,
+            ...rates.filter((r) => r !== lowestRate && r !== highestRate),
+          ].filter(Boolean)}
+          renderItem={({ item }) => (
+            <CurrentItem
+              item={item}
+              lowest={lowestRate === item}
+              highest={highestRate === item}
+            />
+          )}
+          keyExtractor={(item) => item.code}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
+    </ImageBackground>
   );
 };
 
